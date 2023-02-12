@@ -13,4 +13,6 @@ ref: 「実践Rustプログラミング入門」
   - https://docs.rs/serde_json/latest/serde_json/#creating-json-by-serializing-data-structures
 - deserialize(network -> rust: parse)
   - https://docs.rs/serde_json/latest/serde_json/#parsing-json-as-strongly-typed-data-structures
-  
+### yew
+- https://yew.rs/docs/tutorial
+- csr(client side rendering): https://docs.rs/yew/latest/yew/#supported-features
