@@ -21,8 +21,8 @@ enum MyError {
 
     #[error("Failed to SQL execution")]
     SQLiteError(#[from] rusqlite::Error),
-
 }
+
 impl ResponseError for MyError {}
 
 // Todo [mkdir for models]
@@ -41,17 +41,17 @@ struct NewPost {
 
 #[post("/posts")]
 async fn add_post(
-    form: web::Json<NewPost>, // Deserializeされてる
+    form: web::Json<NewPost>, // Deserialized
     db: web::Data<r2d2::Pool<SqliteConnectionManager>>,
 ) -> Result<HttpResponse, MyError> {
     let conn = db.get()?;
 
-    // print_typename(&form.title);
-    // // => actix_web::types::json::Json<actix_api::NewPost>
-    // print_typename(&form.title);
-    // // => &alloc::string::String
-
-    conn.execute("INSERT INTO post (title, body) VALUES (?1, ?2)", params![form.title, form.body])?;
+    // Todo [mkdir actions for model logic]
+    conn.execute(
+        "INSERT INTO post (title, body) VALUES (?1, ?2)",
+        params![form.title, form.body]
+    )?;
+    
     Ok(HttpResponse::Accepted().into())
 }
 
@@ -60,6 +60,7 @@ async fn index(
     db: web::Data<Pool<SqliteConnectionManager>>
 ) -> Result<web::Json<Vec<Post>>, MyError> {//Result<HttpResponse, MyError> {
 
+    // Todo [mkdir actions for model logic]
     let conn = db.get()?;
     let mut stmt = conn.prepare("SELECT id, title, body FROM post")?;
 
@@ -75,8 +76,6 @@ async fn index(
     for row in rows {
         entries.push(row?);
     }
-
-    println!("{:?}", entries);
     Ok(web::Json(entries))
 }
 
@@ -86,6 +85,7 @@ async fn main() -> Result<(), actix_web::Error>{
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
 
+    // Todo [make function for database setup]
     // establish connection to db
     let manager = SqliteConnectionManager::file("actix_yew.db");
     let pool = Pool::new(manager).expect("Failed to initialize connection pool");
@@ -106,7 +106,6 @@ async fn main() -> Result<(), actix_web::Error>{
         App::new()
             .wrap(Logger::default())
             .service(index)
-            .service(sample)
             .service(add_post)
             .data(pool.clone())
     })
@@ -114,21 +113,4 @@ async fn main() -> Result<(), actix_web::Error>{
     .run()
     .await?;
     Ok(())
-}
-
-
-// not related
-#[get("/sample")]
-async fn sample() -> Result<std::string::String, serde_json::Error> {
-    let sample = Post {
-        id: 1,
-        title: "hello".to_string(),
-        body: "world".to_string(),
-    };
-    let serded = serde_json::to_string(&sample);
-    serded
-}
-
-fn print_typename<T>(_: T) {
-    println!("{}", std::any::type_name::<T>());
 }
