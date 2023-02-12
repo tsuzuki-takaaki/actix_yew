@@ -26,6 +26,7 @@ enum MyError {
 impl ResponseError for MyError {}
 
 // Todo [mkdir for models]
+// Todo [mkdir type for both actix-api and yew_ui]
 #[derive(Debug, Serialize)]
 struct Post {
     id: i32,
