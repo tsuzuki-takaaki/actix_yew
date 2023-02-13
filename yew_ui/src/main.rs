@@ -1,4 +1,5 @@
 use gloo_net::http::Request;
+use gloo_console::log;
 use serde::{ Deserialize };
 use yew::prelude::*;
 
@@ -53,6 +54,7 @@ fn posts_list(
 
 #[function_component(App)]
 fn app() -> Html {
+    log!("text dayo");
     let posts = use_state(|| vec![]);
 
     // Todo [I understand nothing]

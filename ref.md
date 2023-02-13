@@ -28,3 +28,6 @@ ref: 「実践Rustプログラミング入門」
 
 ## Debugging(yew)
 - wasm-logger: https://yew.rs/docs/more/debugging
+- gloo_console
+  - https://yew.rs/docs/more/debugging#gloo-console
+  - https://docs.rs/gloo-console/0.2.3/gloo_console/
