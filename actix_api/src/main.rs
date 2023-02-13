@@ -1,9 +1,11 @@
+use actix_cors::Cors;
 use actix_web::{
     get,
     post,
     App,
     HttpServer,
     HttpResponse,
+    http::header,
     ResponseError,
     middleware::Logger,
     web
@@ -104,11 +106,19 @@ async fn main() -> Result<(), actix_web::Error>{
     ).expect("Failed to create table");
     
     HttpServer::new(move || {
+        let cors = Cors::default()
+            .allowed_origin("http://127.0.0.1:8080")
+            .allowed_methods(vec!["GET", "POST"])
+            .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
+            .allowed_header(header::CONTENT_TYPE)
+            .max_age(3600);
+
         App::new()
             .wrap(Logger::default())
+            .wrap(cors)
             .service(index)
             .service(add_post)
-            .data(pool.clone())
+            .app_data(web::Data::new(pool.clone()))
     })
     .bind("127.0.0.1:3000")?
     .run()
