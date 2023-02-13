@@ -6,10 +6,6 @@ ref: 「実践Rustプログラミング入門」
 - query_map: https://docs.rs/rusqlite/0.6.0/rusqlite/struct.Statement.html#method.query_map
   - Executes the prepared statement and maps a function over the resulting rows.Unlike the iterator produced by query, the returned iterator does not expose the possibility for accessing stale rows.
 
-## CORS
-- https://docs.rs/actix-cors/latest/actix_cors/
-- https://github.com/security-union/yew-actix-template/blob/main/actix-api/src/main.rs#L160
-
 ## serialize, deserialize(**most important**)
 - https://serde.rs/
 ### serde_json
@@ -31,3 +27,8 @@ ref: 「実践Rustプログラミング入門」
 - gloo_console
   - https://yew.rs/docs/more/debugging#gloo-console
   - https://docs.rs/gloo-console/0.2.3/gloo_console/
+
+## CORS
+- actix-cors: https://docs.rs/actix-cors/latest/actix_cors/index.html
+  - https://github.com/security-union/yew-actix-template/blob/main/actix-api/src/main.rs#L160
+  - **check dependencies**
