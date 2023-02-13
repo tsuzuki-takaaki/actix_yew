@@ -64,7 +64,7 @@ fn app() -> Html {
         use_effect_with_deps(move |_| {
             let posts = posts.clone();
             wasm_bindgen_futures::spawn_local(async move {
-                let fetched_posts: Vec<Post> = Request::get("http://localhost:3000")
+                let fetched_posts: Vec<Post> = Request::get("http://localhost:3000") // Todo [define constant]
                     .send()
                     .await
                     .unwrap()

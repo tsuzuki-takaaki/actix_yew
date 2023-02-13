@@ -107,7 +107,7 @@ async fn main() -> Result<(), actix_web::Error>{
     
     HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin("http://127.0.0.1:8080")
+            .allowed_origin("http://127.0.0.1:8080") // Todo [define constant]
             .allowed_methods(vec!["GET", "POST"])
             .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
             .allowed_header(header::CONTENT_TYPE)
