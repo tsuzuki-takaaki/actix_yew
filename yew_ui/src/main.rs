@@ -130,11 +130,17 @@ fn text() -> Html {
   log::debug!("{:?}", input_value);
   log::debug!("{:?}", textarea_value);
 
+  let a = parse_markdown(&input_value);
+
+  log::debug!("{:?}", a);
+
   html!(
     <div class={classes!("markdown_container")}>
       <div class={classes!("preparse_area")}>
-        <input class={classes!("title_input")} onchange={input_onchange} value={(*input_value).clone()}/>
-        <textarea class={classes!("markdown_textarea")} onchange={textarea_onchange} value={(*textarea_value).clone()}/>
+        <form>
+          <input class={classes!("title_input")} onchange={input_onchange} value={(*input_value).clone()}/>
+          <textarea class={classes!("markdown_textarea")} onchange={textarea_onchange} value={(*textarea_value).clone()}/>
+        </form>
       </div>
       <div class={classes!("parsed_area")}>
       </div>
@@ -145,4 +151,12 @@ fn text() -> Html {
 fn main() {
   wasm_logger::init(wasm_logger::Config::default());
   yew::Renderer::<App>::new().render();
+}
+
+// Todo [move other file]
+fn parse_markdown(target: &String) -> String {
+  let parser = pulldown_cmark::Parser::new(target);
+  let mut html_output = String::new();
+  pulldown_cmark::html::push_html(&mut html_output, parser);
+  html_output
 }
