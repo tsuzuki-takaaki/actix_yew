@@ -5,102 +5,102 @@ use yew::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 struct Post {
-    id: i32,
-    title: String,
-    body: String,
+  id: i32,
+  title: String,
+  body: String,
 }
 #[derive(Properties, PartialEq)]
 struct PostsListProps {
-    posts: Vec<Post>,
-        on_click: Callback<Post>
+  posts: Vec<Post>,
+    on_click: Callback<Post>
 }
 
 #[derive(Properties, PartialEq)]
 struct PostDetailProps {
-    post: Post,
+  post: Post,
 }
 
 #[function_component(PostDetails)]
 fn post_details(
-    PostDetailProps{ post }: &PostDetailProps
+  PostDetailProps{ post }: &PostDetailProps
 ) -> Html {
-    html! {
-        <div>
-            <h3>{post.title.clone()}</h3>
-            <p>{post.body.clone()}</p>
-        </div>
-    }
+  html! {
+    <div>
+      <h3>{post.title.clone()}</h3>
+      <p>{post.body.clone()}</p>
+    </div>
+  }
 }
 
 #[function_component(PostsList)]
 fn posts_list(
-    PostsListProps { posts, on_click }: &PostsListProps
+  PostsListProps { posts, on_click }: &PostsListProps
 ) -> Html {
-    let on_click = on_click.clone();
+  let on_click = on_click.clone();
 
-    posts.iter().map(|post| {
-        let on_post_select = {
-            let on_click = on_click.clone();
-            let post = post.clone();
-            Callback::from(move |_| {
-                on_click.emit(post.clone())
-            })
-        };
-        html! {
-            <p key={post.id} onclick={on_post_select}>{format!("{}", post.title)}</p>
-        }
-    }).collect()
+  posts.iter().map(|post| {
+    let on_post_select = {
+      let on_click = on_click.clone();
+      let post = post.clone();
+      Callback::from(move |_| {
+        on_click.emit(post.clone())
+      })
+    };
+    html! {
+      <p key={post.id} onclick={on_post_select}>{format!("{}", post.title)}</p>
+    }
+  }).collect()
 }
 
 #[function_component(App)]
 fn app() -> Html {
-    log!("text dayo");
-    let posts = use_state(|| vec![]);
+  log!("text dayo");
+  let posts = use_state(|| vec![]);
 
-    // Todo [I understand nothing]
-    {
-        let posts = posts.clone();
+  // Todo [I understand nothing]
+  {
+    let posts = posts.clone();
 
-        use_effect_with_deps(move |_| {
-            let posts = posts.clone();
-            wasm_bindgen_futures::spawn_local(async move {
-                let fetched_posts: Vec<Post> = Request::get("http://localhost:3000") // Todo [define constant]
-                    .send()
-                    .await
-                    .unwrap()
-                    .json()
-                    .await
-                    .unwrap();
-                println!("{:?}", fetched_posts);
-                posts.set(fetched_posts);
-            });
-            || ()
-        }, ());
-    }
+    use_effect_with_deps(move |_| {
+      let posts = posts.clone();
+      wasm_bindgen_futures::spawn_local(async move {
+        let fetched_posts: Vec<Post> = Request::get("http://localhost:3000") // Todo [define constant]
+            .send()
+            .await
+            .unwrap()
+            .json()
+            .await
+            .unwrap();
+        println!("{:?}", fetched_posts);
+        posts.set(fetched_posts);
+      });
+      || ()
+    }, ());
+  }
 
-    let selected_post = use_state(|| None);
-    let on_post_select = {
-        let selected_post = selected_post.clone();
-        Callback::from(move |post: Post| {
-            selected_post.set(Some(post))
-        })
-    };
+  let selected_post = use_state(|| None);
+  let on_post_select = {
+    let selected_post = selected_post.clone();
+    Callback::from(move |post: Post| {
+      selected_post.set(Some(post))
+    })
+  };
 
-    let details = selected_post.as_ref().map(|post| 
-        html! {
-            <PostDetails post={post.clone()} />
-        }
-    );
-
+  let details = selected_post.as_ref().map(|post| 
     html! {
-        <>
-            <h1>{"Yew UI"}</h1>
-            <PostsList posts={(*posts).clone()} on_click={on_post_select.clone()}/>
-            {for details }
-        </>
+      <PostDetails post={post.clone()} />
     }
+  );
+
+  html! {
+    <>
+      <h1>{"Yew UI"}</h1>
+      <PostsList posts={(*posts).clone()} on_click={on_post_select.clone()}/>
+      {for details }
+    </>
+  }
 }
 
 fn main() {
-    yew::Renderer::<App>::new().render();
+  yew::Renderer::<App>::new().render();
 }
