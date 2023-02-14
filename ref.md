@@ -54,3 +54,27 @@ ref: https://tech.isid.co.jp/entry/2022/10/11/%E3%80%90Yew%E3%80%91Rust%E3%81%A7
 
 ## enum type alias
 - https://doc.rust-lang.org/rust-by-example/custom_types/enum.html#type-aliases
+
+## Callbacks
+- https://yew.rs/docs/advanced-topics/struct-components/callbacks
+
+## Event Listener
+- https://yew.rs/ja/docs/concepts/html/events
+
+## use_state(yew)
+- https://docs.rs/yew/latest/yew/functional/fn.use_state.html
+- input value change like react
+  - https://yew.rs/ja/docs/0.19.0/concepts/function-components/pre-defined-hooks#example-1
+- debug
+  - https://crates.io/crates/wasm-logger
+```rust
+  log::debug!("{}", state);
+```
+  - console上に表示される
+
+## web_sys
+- https://yew.rs/docs/concepts/basic-web-technologies/web-sys
+
+## target_unchecked_into()
+- https://docs.rs/yew/latest/yew/html/trait.TargetCast.html#method.target_unchecked_into
+

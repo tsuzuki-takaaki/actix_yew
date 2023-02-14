@@ -3,6 +3,8 @@ use gloo_net::http::Request;
 use gloo_console::log;
 use serde::{ Deserialize };
 use yew::prelude::*;
+use wasm_bindgen::JsValue;
+use web_sys::{HtmlInputElement, HtmlTextAreaElement};
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 struct Post {
@@ -105,11 +107,34 @@ fn app() -> Html {
 // Todo [make file for component]
 #[function_component(Text)]
 fn text() -> Html {
+  let input_value = use_state(|| String::from(""));
+  let textarea_value = use_state(|| String::from(""));
+
+  let input_onchange = {
+    let input_value = input_value.clone();
+    Callback::from(move |e: Event| {
+      let input: HtmlInputElement = e.target_unchecked_into();
+      input_value.set(input.value());
+    })
+  };
+
+  let textarea_onchange = {
+    let textarea_value = textarea_value.clone();
+    Callback::from(move |e: Event| {
+      let textarea: HtmlTextAreaElement = e.target_unchecked_into();
+      textarea_value.set(textarea.value());
+    })
+  };
+  
+  // debugging state
+  log::debug!("{:?}", input_value);
+  log::debug!("{:?}", textarea_value);
+
   html!(
     <div class={classes!("markdown_container")}>
       <div class={classes!("preparse_area")}>
-        <input class={classes!("title_input")}/>
-        <textarea class={classes!("markdown_textarea")}/>
+        <input class={classes!("title_input")} onchange={input_onchange} value={(*input_value).clone()}/>
+        <textarea class={classes!("markdown_textarea")} onchange={textarea_onchange} value={(*textarea_value).clone()}/>
       </div>
       <div class={classes!("parsed_area")}>
       </div>
@@ -118,5 +143,6 @@ fn text() -> Html {
 }
 
 fn main() {
+  wasm_logger::init(wasm_logger::Config::default());
   yew::Renderer::<App>::new().render();
 }
