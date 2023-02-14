@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use gloo_net::http::Request;
 use gloo_console::log;
 use serde::{ Deserialize };
@@ -54,7 +55,6 @@ fn posts_list(
 
 #[function_component(App)]
 fn app() -> Html {
-  log!("text dayo");
   let posts = use_state(|| vec![]);
 
   // Todo [I understand nothing]
@@ -95,10 +95,26 @@ fn app() -> Html {
   html! {
     <>
       <h1>{"Yew UI"}</h1>
+      <Text />
       <PostsList posts={(*posts).clone()} on_click={on_post_select.clone()}/>
       {for details }
     </>
   }
+}
+
+// Todo [make file for component]
+#[function_component(Text)]
+fn text() -> Html {
+  html!(
+    <div class={classes!("markdown_container")}>
+      <div class={classes!("preparse_area")}>
+        <input class={classes!("title_input")}/>
+        <textarea class={classes!("markdown_textarea")}/>
+      </div>
+      <div class={classes!("parsed_area")}>
+      </div>
+    </div>
+  )
 }
 
 fn main() {
