@@ -78,3 +78,10 @@ ref: https://tech.isid.co.jp/entry/2022/10/11/%E3%80%90Yew%E3%80%91Rust%E3%81%A7
 ## target_unchecked_into()
 - https://docs.rs/yew/latest/yew/html/trait.TargetCast.html#method.target_unchecked_into
 
+## creating node
+- https://github.com/jetli/rust-yew-realworld-example-app/blob/77b145bf2e3ba38e43131720f976c6974ded8fb7/crates/conduit-wasm/src/routes/article/mod.rs#L90
+
+
+
+# More
+- web_sys: https://rustwasm.github.io/wasm-bindgen/api/web_sys/

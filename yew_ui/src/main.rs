@@ -3,8 +3,9 @@ use gloo_net::http::Request;
 use gloo_console::log;
 use serde::{ Deserialize };
 use yew::prelude::*;
+use yew::virtual_dom::VNode;
 use wasm_bindgen::JsValue;
-use web_sys::{HtmlInputElement, HtmlTextAreaElement};
+use web_sys::{HtmlInputElement, HtmlTextAreaElement, Node};
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 struct Post {
@@ -125,14 +126,9 @@ fn text() -> Html {
       textarea_value.set(textarea.value());
     })
   };
-  
-  // debugging state
-  log::debug!("{:?}", input_value);
-  log::debug!("{:?}", textarea_value);
 
-  let a = parse_markdown(&input_value);
-
-  log::debug!("{:?}", a);
+  let parsed_title = parse_markdown(&input_value);
+  let parsed_textarea = parse_markdown(&textarea_value);
 
   html!(
     <div class={classes!("markdown_container")}>
@@ -143,6 +139,8 @@ fn text() -> Html {
         </form>
       </div>
       <div class={classes!("parsed_area")}>
+        { parsed_title }
+        { parsed_textarea }
       </div>
     </div>
   )
@@ -154,9 +152,19 @@ fn main() {
 }
 
 // Todo [move other file]
-fn parse_markdown(target: &String) -> String {
+fn parse_markdown(target: &String) -> Html {
   let parser = pulldown_cmark::Parser::new(target);
   let mut html_output = String::new();
   pulldown_cmark::html::push_html(&mut html_output, parser);
-  html_output
+
+  // creating node from result of markdown parse
+  let div = web_sys::window()
+      .unwrap()
+      .document()
+      .unwrap()
+      .create_element("div")
+      .unwrap();
+  div.set_inner_html(&html_output);
+  let node = Node::from(div);
+  VNode::VRef(node)
 }
