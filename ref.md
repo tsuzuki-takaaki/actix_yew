@@ -81,7 +81,41 @@ ref: https://tech.isid.co.jp/entry/2022/10/11/%E3%80%90Yew%E3%80%91Rust%E3%81%A7
 ## creating node
 - https://github.com/jetli/rust-yew-realworld-example-app/blob/77b145bf2e3ba38e43131720f976c6974ded8fb7/crates/conduit-wasm/src/routes/article/mod.rs#L90
 
+## oninput, onchange
+- https://github.com/yewstack/yew/issues/233
 
+## InputEvent
+- web_sys: https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.InputEvent.html
+- MDN: https://developer.mozilla.org/en-US/docs/Web/API/InputEvent
+- inputEvent.data => get input event
+- **web_sys's InputEvent is almost same with MDN**
+
+## Event
+- web_sys: https://rustwasm.github.io/wasm-bindgen/api/web_sys/struct.Event.html
+- MDN: https://developer.mozilla.org/en-US/docs/Web/API/Event
+
+## onchange vs oninput
+- onchange is the event that is triggerd after one event is done
+- oninput is the event that is triggered when typing into input area
+- so, you should use **oninput** if you would like to do like **react onchange**
+```rust
+  // ex
+  let input_value = use_state(|| String::from(""));
+
+  let handle_change = {
+    let input_value = input_value.clone();
+    Callback::from(move |e: web_sys::InputEvent| {
+      let new_input_value: HtmlInputElement = e.target_unchecked_into();
+      input_value.set(new_input_value.value());
+    })
+  };
+```
+- ref: https://github.com/yewstack/yew/issues/233
+
+## UseStateHandle
+- UseStateHandle 構造体は set メソッドにより値を設定します。* 演算子により参照を外すことにより UseStateHandle 構造体より現在の状態を取得できます。
+- the value of use_state is wrapped by UseStateHandle.
+- **if you wanna access to the value wrapped UseStateHandle, you can use *(dereference).**
 
 # More
 - web_sys: https://rustwasm.github.io/wasm-bindgen/api/web_sys/

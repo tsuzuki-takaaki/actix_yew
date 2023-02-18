@@ -4,8 +4,8 @@ use gloo_console::log;
 use serde::{ Deserialize };
 use yew::prelude::*;
 use yew::virtual_dom::VNode;
-use wasm_bindgen::JsValue;
-use web_sys::{HtmlInputElement, HtmlTextAreaElement, Node};
+use wasm_bindgen::{JsValue, JsCast};
+use web_sys::{HtmlInputElement, HtmlTextAreaElement, Node, Element};
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 struct Post {
@@ -108,39 +108,48 @@ fn app() -> Html {
 // Todo [make file for component]
 #[function_component(Text)]
 fn text() -> Html {
-  let input_value = use_state(|| String::from(""));
-  let textarea_value = use_state(|| String::from(""));
 
-  let input_onchange = {
-    let input_value = input_value.clone();
-    Callback::from(move |e: Event| {
-      let input: HtmlInputElement = e.target_unchecked_into();
-      input_value.set(input.value());
+  let title_value = use_state(|| String::from(""));
+  let content_value = use_state(|| String::from(""));
+
+  let handle_title_input = {
+    let title_value = title_value.clone();
+    Callback::from(move |e: InputEvent| {
+      let new_title_value: HtmlInputElement = e.target_unchecked_into();
+      title_value.set(new_title_value.value());
     })
   };
 
-  let textarea_onchange = {
-    let textarea_value = textarea_value.clone();
-    Callback::from(move |e: Event| {
-      let textarea: HtmlTextAreaElement = e.target_unchecked_into();
-      textarea_value.set(textarea.value());
+  let handle_content_value = {
+    let content_value = content_value.clone();
+    Callback::from(move |e: InputEvent| {
+      let new_content_value: HtmlTextAreaElement = e.target_unchecked_into();
+      content_value.set(new_content_value.value());
     })
   };
 
-  let parsed_title = parse_markdown(&input_value);
-  let parsed_textarea = parse_markdown(&textarea_value);
+  let parsed_titile_value = parse_markdown(&title_value);
+  let parsed_content_value = parse_markdown(&content_value);
 
   html!(
     <div class={classes!("markdown_container")}>
       <div class={classes!("preparse_area")}>
         <form>
-          <input class={classes!("title_input")} onchange={input_onchange} value={(*input_value).clone()}/>
-          <textarea class={classes!("markdown_textarea")} onchange={textarea_onchange} value={(*textarea_value).clone()}/>
+          <input
+            class={classes!("title_input")}
+            oninput={handle_title_input}
+            value={(*title_value).clone()}
+          />
+          <textarea
+            class={classes!("markdown_textarea")}
+            oninput={handle_content_value}
+            value={(*content_value).clone()}
+          />
         </form>
       </div>
       <div class={classes!("parsed_area")}>
-        { parsed_title }
-        { parsed_textarea }
+        { parsed_titile_value }
+        { parsed_content_value }
       </div>
     </div>
   )
