@@ -97,7 +97,7 @@ fn app() -> Html {
 
   html! {
     <>
-      <h1>{"Yew UI"}</h1>
+      <h1>{"Hi, there!"}</h1>
       <Text />
       <PostsList posts={(*posts).clone()} on_click={on_post_select.clone()}/>
       {for details }
@@ -128,29 +128,29 @@ fn text() -> Html {
     })
   };
 
-  let parsed_titile_value = parse_markdown(&title_value);
   let parsed_content_value = parse_markdown(&content_value);
 
   html!(
-    <div class={classes!("markdown_container")}>
-      <div class={classes!("preparse_area")}>
-        <form>
+    <div class={classes!("editor-container")}>
+      <form>
+        <div class={classes!("title-edit")}>
           <input
-            class={classes!("title_input")}
+            class={classes!("title-input")}
             oninput={handle_title_input}
             value={(*title_value).clone()}
           />
+        </div>
+        <div class={classes!("realtime-content")}>
           <textarea
-            class={classes!("markdown_textarea")}
+            class={classes!("preparsed_content")}
             oninput={handle_content_value}
             value={(*content_value).clone()}
           />
-        </form>
-      </div>
-      <div class={classes!("parsed_area")}>
-        { parsed_titile_value }
-        { parsed_content_value }
-      </div>
+          <div class={classes!("parsed_content")}>
+            { parsed_content_value }
+          </div>
+        </div>
+      </form>
     </div>
   )
 }

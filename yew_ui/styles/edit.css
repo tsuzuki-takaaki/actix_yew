@@ -1,0 +1,36 @@
+/* Todo setup ui */
+.editor-container {
+  display: grid;
+  margin: 0 auto;
+  height: 90%;
+  width: 90%;
+}
+
+.title-edit {
+  text-align: center;
+}
+
+.title-input {
+  font-size: 20px;
+  width: 98%;
+}
+
+.realtime-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+  gap: 8px;
+  height: 90%;
+}
+
+.preparsed_content {
+  border: 1px solid red;
+  padding: 8px;
+  width: 49%;
+}
+
+.parsed_content  {
+  border: 1px solid blue;
+  padding: 8px;
+  width: 49%;
+}

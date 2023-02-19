@@ -1,6 +1,3 @@
-ref: 「実践Rustプログラミング入門」
-ref: https://tech.isid.co.jp/entry/2022/10/11/%E3%80%90Yew%E3%80%91Rust%E3%81%A7%E3%83%95%E3%83%AD%E3%83%B3%E3%83%88%E3%82%A8%E3%83%B3%E3%83%89%E9%96%8B%E7%99%BA_-_Rust%E3%81%AE%E3%83%9E%E3%82%AF%E3%83%AD%E3%82%92%E7%B4%90%E8%A7%A3%E3%81%8F_-
-
 ## prepared statement
 - https://docs.rs/rusqlite/latest/rusqlite/struct.Statement.html#method.query_map
 - https://docs.rs/hdbconnect/latest/hdbconnect/struct.PreparedStatement.html
@@ -116,6 +113,16 @@ ref: https://tech.isid.co.jp/entry/2022/10/11/%E3%80%90Yew%E3%80%91Rust%E3%81%A7
 - UseStateHandle 構造体は set メソッドにより値を設定します。* 演算子により参照を外すことにより UseStateHandle 構造体より現在の状態を取得できます。
 - the value of use_state is wrapped by UseStateHandle.
 - **if you wanna access to the value wrapped UseStateHandle, you can use *(dereference).**
+
+## yew with css
+- https://github.com/yewstack/yew/discussions/2003
+
+## trunk with css
+- https://trunkrs.dev/assets/
+- if you wanna make directory for styles, you add ```data-trunk``` to link tag like below
+```html
+  <link data-trunk rel="css" href="styles/index.css" />
+```
 
 # More
 - web_sys: https://rustwasm.github.io/wasm-bindgen/api/web_sys/
