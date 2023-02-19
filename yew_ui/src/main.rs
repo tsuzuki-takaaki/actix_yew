@@ -3,9 +3,12 @@ use gloo_net::http::Request;
 use gloo_console::log;
 use serde::{ Deserialize };
 use yew::prelude::*;
-use yew::virtual_dom::VNode;
 use wasm_bindgen::{JsValue, JsCast};
 use web_sys::{HtmlInputElement, HtmlTextAreaElement, Node, Element};
+
+mod subs;
+use subs::{ parse_markdown };
+use crate::parse_markdown::parse_markdown;
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 struct Post {
@@ -158,22 +161,4 @@ fn text() -> Html {
 fn main() {
   wasm_logger::init(wasm_logger::Config::default());
   yew::Renderer::<App>::new().render();
-}
-
-// Todo [move other file]
-fn parse_markdown(target: &String) -> Html {
-  let parser = pulldown_cmark::Parser::new(target);
-  let mut html_output = String::new();
-  pulldown_cmark::html::push_html(&mut html_output, parser);
-
-  // creating node from result of markdown parse
-  let div = web_sys::window()
-      .unwrap()
-      .document()
-      .unwrap()
-      .create_element("div")
-      .unwrap();
-  div.set_inner_html(&html_output);
-  let node = Node::from(div);
-  VNode::VRef(node)
 }
