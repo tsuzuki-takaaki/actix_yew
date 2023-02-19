@@ -100,7 +100,7 @@ fn app() -> Html {
 
   html! {
     <>
-      <h1>{"Hi, there!"}</h1>
+      <h2>{"Hi, there!"}</h2>
       <Text />
       <PostsList posts={(*posts).clone()} on_click={on_post_select.clone()}/>
       {for details }
