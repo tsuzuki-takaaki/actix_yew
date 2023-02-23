@@ -1,4 +1,4 @@
-use web_sys::{HtmlInputElement, HtmlTextAreaElement, Node, Element};
+use web_sys::{ Node };
 use yew::prelude::*;
 use yew::virtual_dom::VNode;
 

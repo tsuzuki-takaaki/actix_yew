@@ -1,14 +1,10 @@
-#![allow(unused_imports)]
 use gloo_net::http::Request;
-use gloo_console::log;
 use serde::{ Deserialize };
 use yew::prelude::*;
-use wasm_bindgen::{JsValue, JsCast};
-use web_sys::{HtmlInputElement, HtmlTextAreaElement, Node, Element};
+use web_sys::{ HtmlInputElement, HtmlTextAreaElement };
 
-mod subs;
-use subs::{ parse_markdown };
-use crate::parse_markdown::parse_markdown;
+mod utils;
+use crate::utils::parse_markdown::parse_markdown;
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 struct Post {
