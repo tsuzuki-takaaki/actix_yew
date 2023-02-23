@@ -124,5 +124,8 @@
   <link data-trunk rel="css" href="styles/index.css" />
 ```
 
+## if you wanna post new post
+```curl -X POST -d '{"title": "This is a tweet", "body": "hello world"}' -H "Content-type: application/json" http://localhost:3000/posts```
+
 # More
 - web_sys: https://rustwasm.github.io/wasm-bindgen/api/web_sys/
