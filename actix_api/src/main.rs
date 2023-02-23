@@ -1,3 +1,6 @@
+mod models;
+mod utils;
+
 use actix_cors::Cors;
 use actix_web::{
     get,
@@ -6,29 +9,14 @@ use actix_web::{
     HttpServer,
     HttpResponse,
     http::header,
-    ResponseError,
     middleware::Logger,
     web
 };
-use thiserror::Error;
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use rusqlite::params;
-
-mod models;
 use crate::models::post::{ Post, NewPost };
-
-
-#[derive(Error, Debug)]
-enum MyError {
-  #[error("Failed to get connection")]
-  ConnectionPoolError(#[from] r2d2::Error),
-
-  #[error("Failed to SQL execution")]
-  SQLiteError(#[from] rusqlite::Error),
-}
-
-impl ResponseError for MyError {}
+use crate::utils::errors::{ MyError };
 
 
 #[post("/posts")]
