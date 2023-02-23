@@ -1,5 +1,5 @@
 ## Usage
-```terminal
+```.sh
 # Start api server
 % cd actix_api
 % cargo run
