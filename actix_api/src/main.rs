@@ -1,4 +1,4 @@
-mod models;
+mod types;
 mod utils;
 
 use actix_cors::Cors;
@@ -15,7 +15,7 @@ use actix_web::{
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use rusqlite::params;
-use crate::models::post::{ Post, NewPost };
+use crate::types::post::{ Post, NewPost };
 use crate::utils::errors::{ MyError };
 
 
