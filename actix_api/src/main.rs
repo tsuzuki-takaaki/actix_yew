@@ -14,7 +14,10 @@ use thiserror::Error;
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use rusqlite::params;
-use serde::{ Serialize, Deserialize };
+
+mod models;
+use crate::models::post::{ Post, NewPost };
+
 
 #[derive(Error, Debug)]
 enum MyError {
@@ -27,20 +30,6 @@ enum MyError {
 
 impl ResponseError for MyError {}
 
-// Todo [mkdir for models]
-// Todo [mkdir type for both actix-api and yew_ui]
-#[derive(Debug, Serialize)]
-struct Post {
-  id: i32,
-  title: String,
-  body: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct NewPost {
-  title: String,
-  body: String,
-}
 
 #[post("/posts")]
 async fn add_post(
